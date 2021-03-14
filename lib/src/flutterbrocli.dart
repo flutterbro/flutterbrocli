@@ -4,7 +4,7 @@ const _pubSpecYaml = 'pubspec.yaml';
 const _newLine = '\n';
 final _yamlCommentsPattern = RegExp(r'.*#.*');
 
-class ProjectUtils {
+class SetupUtils {
   static Future<void> clearPubSpecYaml() async {
     final file = File(_pubSpecYaml);
     if (await file.exists()) {
@@ -21,5 +21,5 @@ class ProjectUtils {
     }
   }
 
-  const ProjectUtils._();
+  const SetupUtils._();
 }

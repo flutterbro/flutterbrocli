@@ -1,3 +1,3 @@
 library flutterbrocli;
 
-export 'src/flutterbrocli.dart';
+export 'run/setup/setup.dart';
