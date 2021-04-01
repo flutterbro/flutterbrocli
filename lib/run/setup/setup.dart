@@ -19,4 +19,6 @@ Future<void> setup(List<String> arguments) async {
 Future<void> _clear() async {
   print('Removing comments from pubspec.yaml');
   await SetupUtils.clearPubSpecYaml();
+  print('Removing comments from lib/main.dart');
+  await SetupUtils.clearMainDart();
 }

@@ -4,7 +4,7 @@ const _pubSpecYaml = 'pubspec.yaml';
 const _mainDart = 'lib/main.dart';
 const _newLine = '\n';
 final _yamlCommentsPattern = RegExp(r'.*#.*');
-final _dartCommentsPattern = RegExp(r''); // TODO
+final _dartCommentsPattern = RegExp(r'(.*\/\/.*)|\/\*(.*|[\s\S]*?)\*\/');
 
 class SetupUtils {
   static Future<bool> clearPubSpecYaml() async {
@@ -25,7 +25,7 @@ class SetupUtils {
     return exists;
   }
 
-  static Future<void> clearMainDart() async {
+  static Future<bool> clearMainDart() async {
     final file = File(_mainDart);
     final exists = await file.exists();
     if (exists) {
