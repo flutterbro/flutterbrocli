@@ -4,9 +4,15 @@ const _pubSpecYaml = 'pubspec.yaml';
 const _mainDart = 'lib/main.dart';
 const _newLine = '\n';
 final _yamlCommentsPattern = RegExp(r'.*#.*');
-final _dartCommentsPattern = RegExp(r'(.*\/\/.*)|\/\*(.*|[\s\S]*?)\*\/');
+final _dartCommentsPattern = RegExp(r'(\s*\/\/.*)|\/\*(.*|[\s\S]*?)\*\/');
 
 class SetupUtils {
+  static Future<bool> isFlutterProject() async {
+    final file = File(_mainDart);
+    final exists = await file.exists();
+    return exists;
+  }
+
   static Future<bool> clearPubSpecYaml() async {
     final file = File(_pubSpecYaml);
     final exists = await file.exists();
@@ -31,7 +37,6 @@ class SetupUtils {
     if (exists) {
       final lines = await file.readAsLines();
       final raw = lines
-          .where((element) => !element.contains(_dartCommentsPattern))
           .join(_newLine);
       final cleared = raw
           .replaceAll(_dartCommentsPattern, '')
