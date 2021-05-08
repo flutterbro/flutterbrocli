@@ -60,6 +60,10 @@ class SetupUtils {
   static Future<bool> migrateToNullSafety() async =>
       await _upToNullSafetyVersion() && await _migrateDefaultMain();
 
+  static Future<bool> setupLinter() async {
+    return false;
+  }
+
   static Future<bool> _upToNullSafetyVersion() async {
     final file = File(_pubSpecYaml);
     final exists = await file.exists();

@@ -1,4 +1,5 @@
-import 'package:flutterbrocli/src/flutterbrocli.dart';
+// ignore: always_use_package_imports
+import '../../src/flutterbrocli.dart';
 
 Future<void> setup(List<String> arguments) async {
   if (arguments.isEmpty) {
