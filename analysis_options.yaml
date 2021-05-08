@@ -1,3 +1,25 @@
+analyzer:
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+  errors:
+    invalid_assignment: error
+    missing_return: error
+    dead_code: error
+    unused_import: error
+    unused_local_variable: error
+    missing_required_param: error
+    prefer_relative_imports: error
+    directives_ordering: error
+    unawaited_futures: error
+    # allow having TODOs in the code
+    todo: ignore
+  exclude:
+    - "build/**"
+    - "bin/cache/**"
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+
 linter:
   rules:
     # Errors
