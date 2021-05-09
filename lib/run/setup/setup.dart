@@ -14,6 +14,9 @@ Future<void> setup(List<String> arguments) async {
     case 'nullsafety':
       await _nullSafety();
       break;
+    case 'linter':
+      await _linter();
+      break;
     default:
       print('Unknown command');
       break;
@@ -46,4 +49,17 @@ Future<void> _nullSafety() async {
   }
   print('Migrating to null-safety');
   await SetupUtils.migrateToNullSafety();
+}
+
+Future<void> _linter() async {
+  final isFlutterProject = await SetupUtils.isFlutterProject();
+  if (!isFlutterProject) {
+    print(
+      'lib/main.dart not found. Are you sure you`re in the right directory?',
+    );
+
+    return;
+  }
+  print('Setting up linter');
+  await SetupUtils.setupLinter();
 }
