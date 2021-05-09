@@ -19,6 +19,11 @@ const dartCodeMetrics = '  dart_code_metrics: ^3.1.0';
 const _rawRulesLink =
     'https://gist.githubusercontent.com/flutterbro/88366c39b2cbed329e2aaddbfea3f9dd/raw/e31fdb37f83ee47180e7bc3bdfd6c7a09e034969/bro_linter.yaml';
 
+// Clear code
+const _rawSimpleMainLink =
+    'https://gist.githubusercontent.com/flutterbro/88366c39b2cbed329e2aaddbfea3f9dd/raw/a04c1c5523ebc83d0501cc8bcbe12a1b836957be/bro_simple_main.dart';
+const _testDirName = 'test';
+
 class SetupUtils {
   const SetupUtils._();
 
@@ -96,6 +101,24 @@ class SetupUtils {
       await file.writeAsString(rules.body);
     }
     return !exists;
+  }
+
+  static Future<bool> clearCode() async {
+    final file = File(_mainDart);
+    final exists = await file.exists();
+    if (exists) {
+      await file.delete();
+    }
+    await file.create();
+    final simpleMain = await http.get(Uri.parse(_rawSimpleMainLink));
+    await file.writeAsString(simpleMain.body);
+
+    final testDir = Directory(_testDirName);
+    final testDirExists = await testDir.exists();
+    if (testDirExists) {
+      await testDir.delete(recursive: true);
+    }
+    return true;
   }
 
   static Future<bool> _upToNullSafetyVersion() async {

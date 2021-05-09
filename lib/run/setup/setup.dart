@@ -17,6 +17,9 @@ Future<void> setup(List<String> arguments) async {
     case 'linter':
       await _linter();
       break;
+    case 'clearcode':
+      await _clearCode();
+      break;
     default:
       print('Unknown command');
       break;
@@ -62,4 +65,17 @@ Future<void> _linter() async {
   }
   print('Setting up linter');
   await SetupUtils.setupLinter();
+}
+
+Future<void> _clearCode() async {
+  final isFlutterProject = await SetupUtils.isFlutterProject();
+  if (!isFlutterProject) {
+    print(
+      'lib/main.dart not found. Are you sure you`re in the right directory?',
+    );
+
+    return;
+  }
+  print('Clearing code');
+  await SetupUtils.clearCode();
 }
