@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 // ignore: always_use_package_imports
 import '../../src/flutterbrocli.dart';
 
