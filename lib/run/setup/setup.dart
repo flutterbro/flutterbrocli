@@ -9,6 +9,9 @@ Future<void> setup(List<String> arguments) async {
   }
   final command = arguments.first;
   switch (command) {
+    case 'all':
+      await _all();
+      break;
     case 'clear':
       await _clear();
       break;
@@ -25,6 +28,13 @@ Future<void> setup(List<String> arguments) async {
       print('Unknown command');
       break;
   }
+}
+
+Future<void> _all() async {
+  await _clear();
+  await _nullSafety();
+  await _linter();
+  await _clearCode();
 }
 
 Future<void> _clear() async {
