@@ -15,7 +15,7 @@ const _fixNullSafe = 'Key? key, required this.title';
 
 // Linter config
 const _analysisOptionsYaml = 'analysis_options.yaml';
-const dartCodeMetrics = '  dart_code_metrics:^3.1.0';
+const dartCodeMetrics = 'dart_code_metrics:^3.2.2';
 const _rawRulesLink =
     'https://gist.githubusercontent.com/flutterbro/88366c39b2cbed329e2aaddbfea3f9dd/raw/e31fdb37f83ee47180e7bc3bdfd6c7a09e034969/bro_linter.yaml';
 
