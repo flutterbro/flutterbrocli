@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Adding freezed to gitignore
+
 ## 0.1.2
 
 - Fixing linter setup, dart_code_metrics update

@@ -32,6 +32,8 @@ const _freezedAnnitations = 'freezed_annotation:^$_freezedVersion';
 const _jsonSerializable = 'json_serializable:^4.1.2';
 const _jsonSerializableAnnotation = 'json_annotation: ^4.0.1';
 
+const _gitignoreFile = '.gitignore';
+
 class SetupUtils {
   const SetupUtils._();
 
@@ -99,7 +101,7 @@ class SetupUtils {
     return !exists;
   }
 
-  static Future<bool> setupFreezed() async {
+  static Future<bool> setupFreezed(bool shouldIgnore) async {
     var result =
         await Process.run('dart', ['pub', 'add', '--dev', _buildRunner]);
     print(result.stdout);
@@ -113,6 +115,19 @@ class SetupUtils {
     result =
         await Process.run('dart', ['pub', 'add', _jsonSerializableAnnotation]);
     print(result.stdout);
+
+    if(!shouldIgnore) {
+      return true;
+    }
+    final file = File(_gitignoreFile);
+    final exists = await file.exists();
+    if (!exists) {
+      await file.create();
+    }
+    await file.writeAsString('\n\n', mode: FileMode.append);
+    await file.writeAsString('#generated\n', mode: FileMode.append);
+    await file.writeAsString('*.g.dart\n', mode: FileMode.append);
+    await file.writeAsString('*.freezed.dart\n', mode: FileMode.append);
     return true;
   }
 

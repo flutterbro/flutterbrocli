@@ -25,7 +25,12 @@ Future<void> setup(List<String> arguments) async {
       await _clearCode();
       break;
     case 'freezed':
-      await _setupFreezed();
+      if (arguments.length > 1) {
+        final arg2 = arguments[1];
+        await _setupFreezed(arg2 != '--no-ignore');
+      } else {
+        await _setupFreezed(true);
+      }
       break;
     default:
       print('Unknown command');
@@ -38,7 +43,7 @@ Future<void> _all() async {
   await _nullSafety();
   await _linter();
   await _clearCode();
-  await _setupFreezed();
+  //await _setupFreezed(true);
 }
 
 Future<void> _clear() async {
@@ -95,7 +100,7 @@ Future<void> _clearCode() async {
   await SetupUtils.clearCode();
 }
 
-Future<void> _setupFreezed() async {
+Future<void> _setupFreezed(bool shouldIgnore) async {
   final isDartProject = await SetupUtils.isDartProject();
   if (!isDartProject) {
     print(
@@ -105,5 +110,5 @@ Future<void> _setupFreezed() async {
     return;
   }
   print('Setup freezed');
-  await SetupUtils.setupFreezed();
+  await SetupUtils.setupFreezed(shouldIgnore);
 }
