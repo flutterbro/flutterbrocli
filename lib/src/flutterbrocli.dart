@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -14,8 +15,7 @@ const _fixNullSafe = 'Key? key, required this.title';
 
 // Linter config
 const _analysisOptionsYaml = 'analysis_options.yaml';
-const devDeps = 'dev_dependencies';
-const dartCodeMetrics = '  dart_code_metrics: ^3.1.0';
+const dartCodeMetrics = '  dart_code_metrics:^3.1.0';
 const _rawRulesLink =
     'https://gist.githubusercontent.com/flutterbro/88366c39b2cbed329e2aaddbfea3f9dd/raw/e31fdb37f83ee47180e7bc3bdfd6c7a09e034969/bro_linter.yaml';
 
@@ -23,6 +23,14 @@ const _rawRulesLink =
 const _rawSimpleMainLink =
     'https://gist.githubusercontent.com/flutterbro/88366c39b2cbed329e2aaddbfea3f9dd/raw/a04c1c5523ebc83d0501cc8bcbe12a1b836957be/bro_simple_main.dart';
 const _testDirName = 'test';
+
+// freezed
+const _buildRunner = 'build_runner:^2.0.3';
+const _freezedVersion = '0.14.2';
+const _freezed = 'freezed:^$_freezedVersion';
+const _freezedAnnitations = 'freezed_annotation:^$_freezedVersion';
+const _jsonSerializable = 'json_serializable:^4.1.2';
+const _jsonSerializableAnnotation = 'json_annotation: ^4.0.1';
 
 class SetupUtils {
   const SetupUtils._();
@@ -77,21 +85,9 @@ class SetupUtils {
       await _upToNullSafetyVersion() && await _migrateDefaultMain();
 
   static Future<bool> setupLinter() async {
-    final pubspec = File(_pubSpecYaml);
-    final pubspecExists = await pubspec.exists();
-    if (pubspecExists) {
-      final lines = await pubspec.readAsLines();
-      final index = lines.indexWhere((element) => element.contains(devDeps));
-      if (index == -1) {
-        return false;
-      }
-      lines.insert(index + 1, dartCodeMetrics);
-      await pubspec.delete();
-      await pubspec.create();
-      await pubspec.writeAsString(lines.join(_newLine));
-    } else {
-      return false;
-    }
+    final result =
+        await Process.run('dart', ['pub', 'add', '--dev', dartCodeMetrics]);
+    print(result.stdout);
 
     final file = File(_analysisOptionsYaml);
     final exists = await file.exists();
@@ -101,6 +97,23 @@ class SetupUtils {
       await file.writeAsString(rules.body);
     }
     return !exists;
+  }
+
+  static Future<bool> setupFreezed() async {
+    var result =
+        await Process.run('dart', ['pub', 'add', '--dev', _buildRunner]);
+    print(result.stdout);
+    result = await Process.run('dart', ['pub', 'add', '--dev', _freezed]);
+    print(result.stdout);
+    result =
+        await Process.run('dart', ['pub', 'add', '--dev', _jsonSerializable]);
+    print(result.stdout);
+    result = await Process.run('dart', ['pub', 'add', _freezedAnnitations]);
+    print(result.stdout);
+    result =
+        await Process.run('dart', ['pub', 'add', _jsonSerializableAnnotation]);
+    print(result.stdout);
+    return true;
   }
 
   static Future<bool> clearCode() async {

@@ -24,6 +24,9 @@ Future<void> setup(List<String> arguments) async {
     case 'clearcode':
       await _clearCode();
       break;
+    case 'freezed':
+      await _setupFreezed();
+      break;
     default:
       print('Unknown command');
       break;
@@ -35,6 +38,7 @@ Future<void> _all() async {
   await _nullSafety();
   await _linter();
   await _clearCode();
+  await _setupFreezed();
 }
 
 Future<void> _clear() async {
@@ -89,4 +93,17 @@ Future<void> _clearCode() async {
   }
   print('Clearing code');
   await SetupUtils.clearCode();
+}
+
+Future<void> _setupFreezed() async {
+  final isDartProject = await SetupUtils.isDartProject();
+  if (!isDartProject) {
+    print(
+      'pubspec.yaml not found. Are you sure you`re in the right directory?',
+    );
+
+    return;
+  }
+  print('Setup freezed');
+  await SetupUtils.setupFreezed();
 }
